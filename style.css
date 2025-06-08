@@ -16,7 +16,6 @@ body {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Tiêu đề chính */
 h2 {
   margin-bottom: 24px;
   color: #2e7d32;
@@ -27,46 +26,77 @@ h2 {
 /* Form tìm kiếm */
 form {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;  /* ban đầu trên 1 dòng */
   gap: 12px;
   margin-bottom: 16px;
+  align-items: center;
 }
 
-input, select, button {
+input[type="text"] {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-width: 200px;
   padding: 10px 12px;
   font-size: 14px;
   border: 1px solid #2e7d32;
   border-radius: 6px;
   color: #2e7d32;
-  background-color: #e8f5e9;
+  background-color: #ffffff;
   transition: 0.3s;
 }
 
-input[type="text"] {
-  flex: 1;
-  min-width: 200px;
+select, button {
+  flex: 0 0 auto;
+  min-width: 120px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #2e7d32;
+  border-radius: 6px;
+  color: #2e7d32;
+  background-color: #ffffff;
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 input:hover, select:hover, button:hover {
   background-color: #f1f8f1;
-  color: #121312;
+  color: #1a3a1c;
   border-color: #1b5e20;
 }
 
 button {
-  cursor: pointer;
   background-color: #2e7d32;
   color: white;
   border: none;
+  flex-shrink: 0;
 }
 
 button:hover {
   background-color: #1b5e20;
 }
 
-/* Kết quả bảng */
+/* Responsive: màn nhỏ thì mỗi cái 1 dòng */
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  input[type="text"], select, button {
+    width: 100%;
+    min-width: auto;
+    margin: 4px 0;
+    /* Thêm 2 dòng dưới đây: */
+    box-sizing: border-box; /* Đảm bảo padding + border tính vào chiều cao */
+    height: 44px;            /* Chiều cao cố định cho tất cả */
+  }
+}
+
+
+/* Phần bảng, #ketqua giữ nguyên */
 #ketqua {
-  overflow-x: auto;
+  overflow-x: visible;  /* hoặc bỏ hẳn overflow-x */
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -74,9 +104,9 @@ button:hover {
   background: #fff;
   max-height: 600px;
   scrollbar-width: thin;
+  white-space: nowrap; /* giữ không xuống dòng */
 }
 
-/* Scrollbar Chrome, Safari */
 #ketqua::-webkit-scrollbar {
   height: 8px;
 }
@@ -85,7 +115,6 @@ button:hover {
   border-radius: 4px;
 }
 
-/* Bảng dữ liệu */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -112,54 +141,4 @@ thead {
   margin-top: 6px;
   font-style: italic;
   text-align: center;
-}
-
-/* Responsive dưới 768px */
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  #container {
-    padding: 16px;
-  }
-
-  form {
-    flex-direction: column;
-  }
-
-  input, select, button {
-    font-size: 16px;
-    width: 100%;
-  }
-
-  table {
-    font-size: 13px;
-    min-width: 600px;
-  }
-
-  th, td {
-    padding: 6px 8px;
-  }
-
-  #scroll-note {
-    font-size: 11px;
-  }
-}
-
-/* Responsive dưới 480px (mobile nhỏ) */
-@media (max-width: 480px) {
-  h2 {
-    font-size: 20px;
-  }
-
-  input, select, button {
-    font-size: 15px;
-    padding: 10px;
-  }
-
-  table {
-    font-size: 12px;
-    min-width: 500px;
-  }
 }

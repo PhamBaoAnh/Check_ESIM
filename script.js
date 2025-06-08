@@ -192,6 +192,7 @@ navigator.clipboard.writeText(copiedText)
   .then(() => alert("✅ Đã sao chép dữ liệu đã chọn vào bộ nhớ tạm."))
   .catch(err => alert("❌ Lỗi khi sao chép dữ liệu: " + err));
 
+
 }
 
 
