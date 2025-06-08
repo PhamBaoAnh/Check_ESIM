@@ -5,65 +5,76 @@ body {
   padding: 20px;
   margin: 0;
   color: #333;
-  line-height: 1.5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #container {
   max-width: 1000px;
   margin: auto;
   background: #fff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 28px 32px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Tiêu đề */
 h2 {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   color: #2e7d32;
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 600;
   text-align: center;
+  letter-spacing: 0.02em;
 }
 
 /* Form tìm kiếm */
 form {
   display: flex;
   flex-wrap: nowrap;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 18px;
   align-items: center;
 }
 
 input[type="text"],
 select,
 button {
-  padding: 10px 12px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid #2e7d32;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1.5px solid #2e7d32;
   color: #2e7d32;
   background-color: #fff;
-  transition: 0.3s;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   box-sizing: border-box;
+  font-weight: 500;
+  outline-offset: 2px;
 }
 
 input[type="text"] {
   flex-grow: 1;
-  min-width: 200px;
+  min-width: 220px;
 }
 
 select,
 button {
   flex-shrink: 0;
-  min-width: 120px;
+  min-width: 130px;
 }
 
 input:hover,
 select:hover,
-button:hover {
-  background-color: #f1f8f1;
-  color: #1a3a1c;
+button:hover,
+input:focus,
+select:focus,
+button:focus {
+  background-color: #e6f2e6;
+  color: #145214;
   border-color: #1b5e20;
+  outline: none;
+  cursor: pointer;
 }
 
 /* Button đặc biệt */
@@ -71,10 +82,14 @@ button {
   background-color: #2e7d32;
   color: white;
   border: none;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(46, 125, 50, 0.4);
 }
 
-button:hover {
-  background-color: #1b5e20;
+button:hover,
+button:focus {
+  background-color: #8acf8a;
+  box-shadow: 0 4px 12px rgba(27, 94, 32, 0.6);
 }
 
 /* Responsive */
@@ -87,8 +102,8 @@ button:hover {
   select,
   button {
     width: 100%;
-    margin: 4px 0;
-    height: 44px;
+    margin: 6px 0;
+    height: 48px;
   }
 }
 
@@ -96,12 +111,13 @@ button:hover {
 #ketqua {
   overflow: auto;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 0;
   background: #fff;
   max-height: 600px;
   white-space: nowrap;
   scrollbar-width: thin;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
 }
 
 /* Scrollbar tùy chỉnh */
@@ -113,7 +129,7 @@ button:hover {
 
 #ketqua::-webkit-scrollbar-thumb,
 .table-wrapper::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 
@@ -128,25 +144,33 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 15px;
   min-width: 900px;
   background: white;
+  box-shadow: 0 0 8px rgba(0,0,0,0.04);
 }
 
 th,
 td {
-  border: 1px solid #ccc;
-  padding: 8px 10px;
+  border: 1px solid #ddd;
+  padding: 10px 14px;
   text-align: left;
   white-space: nowrap;
   vertical-align: middle;
   background-color: white;
+  transition: background-color 0.2s;
+}
+
+th:hover,
+td:hover {
+  background-color: #749e74;
 }
 
 /* Header sticky */
 thead {
   background-color: #2e7d32;
   color: white;
+  font-weight: 600;
 }
 
 thead th {
@@ -154,6 +178,7 @@ thead th {
   top: 0;
   background-color: #2e7d32;
   z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 /* Cố định cột đầu (checkbox) */
@@ -173,19 +198,68 @@ thead th:first-child {
 
 /* Ghi chú dưới bảng */
 #scroll-note {
-  font-size: 12px;
+  font-size: 13px;
   color: #666;
-  margin-top: 6px;
+  margin-top: 10px;
   font-style: italic;
   text-align: center;
+  user-select: none;
 }
+
 @media (max-width: 768px) {
   table {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   th,
   td {
-    padding: 6px 8px;
+    padding: 8px 10px;
   }
+}
+
+/* Ẩn danh sách card trên desktop */
+.list-view {
+  display: none;
+  margin-top: 16px;
+}
+
+/* Ẩn bảng trên mobile và hiện danh sách card */
+@media screen and (max-width: 768px) {
+  table {
+    display: none;
+  }
+  .list-view {
+    display: block;
+    width: 100%;
+  }
+}
+
+/* Style card đơn giản */
+.list-view .card {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 1px 2px 8px rgba(0,0,0,0.08);
+  clear: both;
+  white-space: normal;       /* cho phép xuống dòng */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  background: #fff;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  transition: box-shadow 0.3s ease;
+}
+
+.list-view .card:hover {
+  box-shadow: 2px 6px 14px rgba(0,0,0,0.12);
+}
+
+.list-view .card div {
+  margin: 6px 0;
+  /* Bạn có thể thêm border-bottom hoặc màu khác nếu muốn */
 }

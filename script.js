@@ -138,14 +138,34 @@ function hienThiBang(ds) {
   }
 
   copyBtnContainer.innerHTML = `<button id="copySelectedBtn" style="margin-bottom:10px;">Copy dòng và cột đã chọn</button>`;
-  ketquaDiv.innerHTML = taoTableHTML(ds);
 
-  // Gán sự kiện cho checkbox chọn tất cả dòng
+  // Tạo bảng
+  const tableHTML = taoTableHTML(ds);
+
+  // Tạo danh sách card cho mobile
+  let listViewHTML = `<div class="list-view">`;
+  ds.forEach((sp, index) => {
+    listViewHTML += `<div class="card" data-index="${index}">
+      <div><input type="checkbox" class="rowCheckbox" data-index="${index}" /> <strong>STT: ${index + 1}</strong></div>`;
+    for (let i = 2; i < columns.length; i++) {
+      const key = columns[i].key;
+      const label = columns[i].label;
+      const value = sp[key] || "";
+      listViewHTML += `<div><strong>${label}:</strong> ${value}</div>`;
+    }
+    listViewHTML += `</div>`;
+  });
+  listViewHTML += `</div>`;
+
+  ketquaDiv.innerHTML = tableHTML + listViewHTML;
+
+  // Sự kiện chọn tất cả dòng (checkbox trong bảng)
   document.getElementById("selectAll").addEventListener("change", function () {
-    document.querySelectorAll(".rowCheckbox").forEach(cb => cb.checked = this.checked);
+    const checked = this.checked;
+    document.querySelectorAll(".rowCheckbox").forEach(cb => cb.checked = checked);
   });
 
-  // Gán sự kiện cho nút copy
+  // Sự kiện nút copy
   document.getElementById("copySelectedBtn").addEventListener("click", () => {
     copySelectedCells(ds);
   });
