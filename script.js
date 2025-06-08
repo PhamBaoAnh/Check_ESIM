@@ -21,7 +21,7 @@ const columns = [
   { key: "stt", label: "STT", selectable: false },             // 1 STT
   { key: "Mã sản phẩm", label: "Mã SP", selectable: true },          // 2
   { key: "Gói cước", label: "Gói cước", selectable: true },    // 3
-  { key: "Quốc gia/\nKhu vực", label: "Quốc gia", selectable: true },    // 4
+  { key: "Quốc gia", label: "Quốc gia", selectable: true },    // 4 Đổi thành "Quốc gia"
   { key: "Số ngày", label: "Số ngày", selectable: true },      // 5
   { key: "Dung lượng", label: "Dung lượng", selectable: true },// 6
   { key: "Loại gói cước", label: "Loại gói cước", selectable: true }, // 7
@@ -60,7 +60,12 @@ function getUniqueList(field, isSoNgay = false, isDungLuong = false) {
 
 // Tạo options cho các filter select
 function populateFilterOptions() {
-  const quocGiaList = getUniqueList("Quốc gia/\nKhu vực");
+  // Xóa option hiện có trước khi thêm mới
+  selectQuocGia.innerHTML = `<option value="">--Chọn Quốc gia--</option>`;
+  selectSoNgay.innerHTML = `<option value="">--Chọn Số ngày--</option>`;
+  selectDungLuong.innerHTML = `<option value="">--Chọn Dung lượng--</option>`;
+
+  const quocGiaList = getUniqueList("Quốc gia");
   quocGiaList.forEach(qg => {
     const option = document.createElement("option");
     option.value = qg;
@@ -193,6 +198,7 @@ function timKiemSanPham() {
 
   let ketQua = data;
 
+  // Lọc theo từ khóa
   if (keyword) {
     ketQua = ketQua.filter(sp =>
       Object.values(sp).some(value =>
@@ -201,14 +207,23 @@ function timKiemSanPham() {
     );
   }
 
+  // Lọc theo Quốc gia
   if (filterQG) {
-    ketQua = ketQua.filter(sp => sp["Quốc gia/\nKhu vực"] === filterQG);
+    ketQua = ketQua.filter(sp => {
+      const qg = sp["Quốc gia"] || "";
+      return qg.trim() === filterQG;
+    });
   }
 
+  // Lọc theo Số ngày
   if (filterNgay) {
-    ketQua = ketQua.filter(sp => sp["Số ngày"] === filterNgay);
+    ketQua = ketQua.filter(sp => {
+      const soNgay = sp["Số ngày"] || "";
+      return soNgay.trim() === filterNgay;
+    });
   }
 
+  // Lọc theo Dung lượng
   if (filterDL) {
     ketQua = ketQua.filter(sp => {
       const dlStr = sp["Dung lượng"] || "";
@@ -220,12 +235,31 @@ function timKiemSanPham() {
   hienThiBang(ketQua);
 }
 
-// Load dữ liệu từ file JSON
+// Load dữ liệu từ file JSON và chuẩn hóa
 fetch('data_sanpham.json')
   .then(res => res.json())
   .then(json => {
-    data = json;
+    // Chuẩn hóa key "Quốc gia/\nKhu vực" thành "Quốc gia"
+    data = json.map(item => {
+      if (item["Quốc gia/\nKhu vực"]) {
+        item["Quốc gia"] = item["Quốc gia/\nKhu vực"];
+        delete item["Quốc gia/\nKhu vực"];
+      }
+      return item;
+    });
     populateFilterOptions();
+
+    // Tự động gọi timKiemSanPham khi chọn giá trị trong combobox
+    selectQuocGia.addEventListener("change", timKiemSanPham);
+    selectSoNgay.addEventListener("change", timKiemSanPham);
+    selectDungLuong.addEventListener("change", timKiemSanPham);
+
+    // Nếu bạn có ô nhập từ khóa (input#keyword), bạn có thể gọi timKiemSanPham khi nhập:
+    const inputKeyword = document.getElementById("keyword");
+    if (inputKeyword) {
+      inputKeyword.addEventListener("input", timKiemSanPham);
+    }
+
     hienThiBang(data);
   })
   .catch(err => {
