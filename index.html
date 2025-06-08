@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tìm kiếm eSIM</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="container">
+    <h2>🔍 Tìm kiếm eSIM</h2>
+
+    <form onsubmit="event.preventDefault(); timKiemSanPham();">
+      <input type="text" id="keyword" placeholder="Nhập từ khóa (ví dụ: USA, 10GB, 3 ngày)" />
+
+      <select id="filterQuocGia">
+        <option value="">-- Chọn Quốc gia --</option>
+      </select>
+
+      <select id="filterSoNgay">
+        <option value="">-- Chọn Số ngày --</option>
+      </select>
+
+      <select id="filterDungLuong">
+        <option value="">-- Chọn Dung lượng (GB) --</option>
+      </select>
+
+      <button type="submit">Tìm kiếm</button>
+      <div id="search-hint"></div>
+    </form>
+
+
+    <div id="ketqua"></div>
+    <div id="scroll-note">➡️ Kéo ngang để xem thêm cột</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
