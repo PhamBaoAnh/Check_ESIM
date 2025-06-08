@@ -105,7 +105,7 @@ function taoTableHTML(ds) {
   for(let i = 2; i < columns.length; i++) {
     tableHTML += `<th>
       ${columns[i].label} 
-      <input type="checkbox" class="colToggle" data-col-index="${i}" style="margin-left:5px; vertical-align: middle;" />
+      <input type="checkbox" class="colToggle" data-col-index="${i}" style="margin-left:5px; vertical-align: middle;" checked />
     </th>`;
   }
 
