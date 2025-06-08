@@ -5,25 +5,36 @@ const selectSoNgay = document.getElementById("filterSoNgay");
 const selectDungLuong = document.getElementById("filterDungLuong");
 const ketquaDiv = document.getElementById("ketqua");
 
+// Thêm div chứa nút copy (phải có trong HTML hoặc tạo động)
+const copyBtnContainerId = "copy-btn-container";
+if (!document.getElementById(copyBtnContainerId)) {
+  const divCopyBtn = document.createElement("div");
+  divCopyBtn.id = copyBtnContainerId;
+  divCopyBtn.style.margin = "10px 0";
+  ketquaDiv.parentNode.insertBefore(divCopyBtn, ketquaDiv);
+}
+
+const copyBtnContainer = document.getElementById(copyBtnContainerId);
+
 const columns = [
-  { key: "checkbox", label: "" },           // 0 checkbox cột
-  { key: "stt", label: "STT" },             // 1 STT
-  { key: "maSP", label: "Mã SP" },          // 2
-  { key: "goiCuoc", label: "Gói cước" },    // 3
-  { key: "quocGia", label: "Quốc gia" },    // 4
-  { key: "soNgay", label: "Số ngày" },      // 5
-  { key: "dungLuong", label: "Dung lượng" },// 6
-  { key: "loaiGoiCuoc", label: "Loại gói cước" }, // 7
-  { key: "giaBanLeESIMZY", label: "Giá bán lẻ ESIMZY" }, // 8
-  { key: "giaKM", label: "Giá KM" },                   // 9
-  { key: "giaBanLeESIMNhat", label: "Giá bán lẻ eSIM Nhật (Yên)" }, // 10
-  { key: "region", label: "Region" },                   // 11
-  { key: "type", label: "Type" },                       // 12
-  { key: "nhaMang", label: "Nhà mạng" },               // 13
-  { key: "ghiChu", label: "Ghi chú" }                   // 14
+  { key: "checkbox", label: "", selectable: false },           // 0 checkbox cột
+  { key: "stt", label: "STT", selectable: false },             // 1 STT
+  { key: "maSP", label: "Mã SP", selectable: true },          // 2
+  { key: "goiCuoc", label: "Gói cước", selectable: true },    // 3
+  { key: "quocGia", label: "Quốc gia", selectable: true },    // 4
+  { key: "soNgay", label: "Số ngày", selectable: true },      // 5
+  { key: "dungLuong", label: "Dung lượng", selectable: true },// 6
+  { key: "loaiGoiCuoc", label: "Loại gói cước", selectable: true }, // 7
+  { key: "giaBanLeESIMZY", label: "Giá bán lẻ ESIMZY", selectable: true }, // 8
+  { key: "giaKM", label: "Giá KM", selectable: true },                   // 9
+  { key: "giaBanLeESIMNhat", label: "Giá bán lẻ eSIM Nhật (Yên)", selectable: true }, // 10
+  { key: "region", label: "Region", selectable: true },                   // 11
+  { key: "type", label: "Type", selectable: true },                       // 12
+  { key: "nhaMang", label: "Nhà mạng", selectable: true },               // 13
+  { key: "ghiChu", label: "Ghi chú", selectable: true }                   // 14
 ];
 
-// Hàm lấy danh sách duy nhất, sắp xếp
+// Lấy giá trị duy nhất cho filter
 function getUniqueList(field, isSoNgay = false, isDungLuong = false) {
   const set = new Set();
   data.forEach(item => {
@@ -47,6 +58,7 @@ function getUniqueList(field, isSoNgay = false, isDungLuong = false) {
   return arr;
 }
 
+// Tạo options cho các filter select
 function populateFilterOptions() {
   const quocGiaList = getUniqueList("Quốc gia/\nKhu vực");
   quocGiaList.forEach(qg => {
@@ -73,38 +85,40 @@ function populateFilterOptions() {
   });
 }
 
+// Hiển thị bảng kèm checkbox chọn dòng, checkbox chọn cột để copy
 function hienThiBang(ds) {
   if (ds.length === 0) {
     ketquaDiv.innerHTML = "<p>🔎 Không tìm thấy kết quả phù hợp.</p>";
+    document.getElementById("copy-btn-container").innerHTML = "";
     return;
   }
 
-  let html = `<button id="copySelectedBtn" style="margin-bottom:10px;">Copy dòng và cột đã chọn</button>`;
-  html += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse: collapse; width: 100%; max-width: 100%; overflow-x:auto;">`;
-  html += `<thead><tr>`;
+  let copyBtnHtml = `<button id="copySelectedBtn" style="margin-bottom:10px;">Copy dòng và cột đã chọn</button>`;
+  let copyBtnContainer = document.getElementById("copy-btn-container");
+  if (!copyBtnContainer) {
+    copyBtnContainer = document.createElement("div");
+    copyBtnContainer.id = "copy-btn-container";
+    ketquaDiv.parentNode.insertBefore(copyBtnContainer, ketquaDiv);
+  }
+  copyBtnContainer.innerHTML = copyBtnHtml;
 
-  columns.forEach((col, i) => {
-    if (col.key === "checkbox") {
-      // checkbox chọn tất cả dòng
-      html += `<th><input type="checkbox" id="selectAll" /></th>`;
-    } else if (col.key === "stt") {
-      // STT không có checkbox chọn cột
-      html += `<th>${col.label}</th>`;
-    } else {
-      // checkbox cột KHÔNG checked mặc định
-      html += `<th>
-        <div style="display:flex; align-items:center; gap:6px;">
-          <span>${col.label}</span>
-          <input type="checkbox" class="colToggle" data-col-index="${i}" />
-        </div>
-      </th>`;
-    }
-  });
+  let tableHTML = `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse: collapse; width: 100%; max-width: 100%; overflow-x:auto;">`;
+  tableHTML += `<thead><tr>`;
 
-  html += `</tr></thead><tbody>`;
+  tableHTML += `<th><input type="checkbox" id="selectAll" /></th>`;
+  tableHTML += `<th>STT</th>`;
+
+  for(let i = 2; i < columns.length; i++) {
+    tableHTML += `<th>
+      ${columns[i].label} 
+      <input type="checkbox" class="colToggle" data-col-index="${i}" style="margin-left:5px; vertical-align: middle;" />
+    </th>`;
+  }
+
+  tableHTML += `</tr></thead><tbody>`;
 
   ds.forEach((sp, index) => {
-    html += `<tr>
+    tableHTML += `<tr>
       <td><input type="checkbox" class="rowCheckbox" data-index="${index}"></td>
       <td>${index + 1}</td>
       <td>${sp["Mã sản phẩm"] || ""}</td>
@@ -123,21 +137,22 @@ function hienThiBang(ds) {
     </tr>`;
   });
 
-  html += `</tbody></table>`;
-  ketquaDiv.innerHTML = html;
+  tableHTML += `</tbody></table>`;
 
-  // Checkbox chọn tất cả dòng
+  ketquaDiv.innerHTML = tableHTML;
+
   document.getElementById("selectAll").addEventListener("change", function () {
     document.querySelectorAll(".rowCheckbox").forEach(cb => cb.checked = this.checked);
   });
 
-  // Nút copy dòng + cột đã chọn
   document.getElementById("copySelectedBtn").addEventListener("click", () => {
     copySelectedCells(ds);
   });
 }
 
-// Hàm copy dòng và cột được chọn, nhận ds là dữ liệu đang hiển thị
+
+
+// Hàm copy dữ liệu theo dòng và cột chọn
 function copySelectedCells(ds) {
   const checkedRows = Array.from(document.querySelectorAll(".rowCheckbox:checked"))
     .map(cb => parseInt(cb.getAttribute("data-index")));
@@ -147,9 +162,8 @@ function copySelectedCells(ds) {
     return;
   }
 
-  let checkedCols = Array.from(document.querySelectorAll(".colToggle:checked"))
-    .map(cb => parseInt(cb.getAttribute("data-col-index")))
-    .filter(i => i !== 0 && i !== 1);
+  const checkedCols = Array.from(document.querySelectorAll(".colToggle:checked"))
+    .map(cb => parseInt(cb.getAttribute("data-col-index")));
 
   if (checkedCols.length === 0) {
     alert("Vui lòng chọn ít nhất một cột để sao chép.");
@@ -157,45 +171,43 @@ function copySelectedCells(ds) {
   }
 
   const copiedRecords = checkedRows.map(rowIndex => {
-  const sp = ds[rowIndex];
+    const sp = ds[rowIndex];
 
-  const lines = checkedCols.map(colIndex => {
-    const label = columns[colIndex].label;
+    const lines = checkedCols.map(colIndex => {
+      const label = columns[colIndex].label;
+      let value = "";
 
-    let value = "";
-    switch (colIndex) {
-      case 2: value = sp["Mã sản phẩm"] || ""; break;
-      case 3: value = sp["Gói cước"] || ""; break;
-      case 4: value = sp["Quốc gia/\nKhu vực"] || ""; break;
-      case 5: value = sp["Số ngày"] || ""; break;
-      case 6: value = sp["Dung lượng"] || ""; break;
-      case 7: value = sp["Loại gói cước"] || ""; break;
-      case 8: value = sp[" Giá bán lẻ ESIMZY "] || ""; break;
-      case 9: value = sp["Giá KM\nsau chiết khấu ESIMZY"] || ""; break;
-      case 10: value = sp[" Giá bán lẻ eSIM Nhật (Yên) "] || ""; break;
-      case 11: value = sp["Region"] || ""; break;
-      case 12: value = sp["Type"] || ""; break;
-      case 13: value = sp["Nhà Mạng"] || ""; break;
-      case 14: value = sp["Ghi chú"] || ""; break;
-      default: value = ""; break;
-    }
+      switch (colIndex) {
+        case 2: value = sp["Mã sản phẩm"] || ""; break;
+        case 3: value = sp["Gói cước"] || ""; break;
+        case 4: value = sp["Quốc gia/\nKhu vực"] || ""; break;
+        case 5: value = sp["Số ngày"] || ""; break;
+        case 6: value = sp["Dung lượng"] || ""; break;
+        case 7: value = sp["Loại gói cước"] || ""; break;
+        case 8: value = sp[" Giá bán lẻ ESIMZY "] || ""; break;
+        case 9: value = sp["Giá KM\nsau chiết khấu ESIMZY"] || ""; break;
+        case 10: value = sp[" Giá bán lẻ eSIM Nhật (Yên) "] || ""; break;
+        case 11: value = sp["Region"] || ""; break;
+        case 12: value = sp["Type"] || ""; break;
+        case 13: value = sp["Nhà Mạng"] || ""; break;
+        case 14: value = sp["Ghi chú"] || ""; break;
+        default: value = ""; break;
+      }
 
-    return `- ${label}: ${value}`;
+      return `- ${label}: ${value}`;
+    });
+
+    return lines.join("\n");
   });
 
-  return lines.join("\n");
-});
+  const copiedText = copiedRecords.join("\n------------------------\n");
 
-const copiedText = copiedRecords.join("\n------------------------\n");
-
-navigator.clipboard.writeText(copiedText)
-  .then(() => alert("✅ Đã sao chép dữ liệu đã chọn vào bộ nhớ tạm."))
-  .catch(err => alert("❌ Lỗi khi sao chép dữ liệu: " + err));
-
-
+  navigator.clipboard.writeText(copiedText)
+    .then(() => alert("✅ Đã sao chép dữ liệu đã chọn vào bộ nhớ tạm."))
+    .catch(err => alert("❌ Lỗi khi sao chép dữ liệu: " + err));
 }
 
-
+// Hàm tìm kiếm sản phẩm theo filter và từ khóa
 function timKiemSanPham() {
   const keyword = document.getElementById("keyword").value.toLowerCase().trim();
   const filterQG = selectQuocGia.value;
@@ -231,7 +243,7 @@ function timKiemSanPham() {
   hienThiBang(ketQua);
 }
 
-// Load dữ liệu
+// Load dữ liệu từ file JSON
 fetch('data_sanpham.json')
   .then(res => res.json())
   .then(json => {

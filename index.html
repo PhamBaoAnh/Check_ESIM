@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Tìm kiếm eSIM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 </head>
 <body>
   <div id="container">
@@ -29,20 +28,18 @@
       <button type="submit">Tìm kiếm</button>
       <div id="search-hint"></div>
     </form>
-    
 
-    <div id="ketqua">
-    <div class="table-wrapper">
-      <table>
-        <!-- Nội dung bảng -->
-      </table>
+    <!-- Nút copy sẽ được JS chèn ở đây -->
+    <div id="copy-btn-container" style="margin: 10px 0;"></div>
+
+    <!-- Phần tử chứa bảng có scroll ngang và dọc -->
+    <div id="ketqua" class="table-wrapper">
+      <!-- Bảng do JS tạo sẽ chèn vào đây -->
     </div>
-    <div id="scroll-note">Kéo ngang để xem đầy đủ bảng nếu bị ẩn</div>
-  </div>
 
+    <div id="scroll-note">Kéo ngang để xem đầy đủ bảng nếu bị ẩn</div>
   </div>
 
   <script src="script.js"></script>
 </body>
-
 </html>

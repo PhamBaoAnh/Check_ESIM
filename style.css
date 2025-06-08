@@ -100,10 +100,10 @@ button:hover {
 
 /* Khối chứa bảng */
 #ketqua {
-  overflow-y: auto;
+  overflow: auto;       /* cuộn ngang & dọc */
   border: none;
   border-radius: 6px;
-  padding: 10px;
+  padding: 0;           /* Bỏ padding để không tạo khoảng thừa */
   background: #fff;
   max-height: 600px;
   scrollbar-width: thin;
@@ -112,6 +112,7 @@ button:hover {
 
 #ketqua::-webkit-scrollbar {
   height: 8px;
+  width: 8px;
 }
 
 #ketqua::-webkit-scrollbar-thumb {
@@ -119,10 +120,11 @@ button:hover {
   border-radius: 4px;
 }
 
-/* Bọc bảng để cuộn ngang */
+/* Bọc bảng để cuộn ngang (nếu bạn dùng) */
 .table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  padding: 0; /* bỏ padding */
 }
 
 .table-wrapper::-webkit-scrollbar {
@@ -139,7 +141,8 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  min-width: 900px;
+  min-width: 900px; /* đảm bảo có scroll ngang */
+  margin: 0; /* bỏ margin */
 }
 
 th,
@@ -149,11 +152,37 @@ td {
   text-align: left;
   white-space: nowrap;
   vertical-align: middle;
+  background-color: white; /* đảm bảo nền trắng */
 }
 
+/* Cố định dòng đầu tiên (header) */
 thead {
   background-color: #2e7d32;
   color: white;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #2e7d32;
+  z-index: 10;
+  margin: 0;
+}
+
+/* Cố định cột đầu tiên (checkbox) */
+thead th:first-child,
+tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #f9f9f9;  /* màu nền đồng nhất, tránh thừa */
+  z-index: 20;
+  box-shadow: 1px 0 5px -2px rgba(0, 0, 0, 0.1);
+  margin: 0;
+}
+
+/* Thẻ th đầu tiên cần z-index cao hơn để luôn nằm trên td */
+thead th:first-child {
+  z-index: 30;
 }
 
 /* Ghi chú */
