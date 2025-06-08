@@ -1,3 +1,4 @@
+/* Reset & nền tổng thể */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f9f9f9;
@@ -26,7 +27,7 @@ h2 {
 /* Form tìm kiếm */
 form {
   display: flex;
-  flex-wrap: nowrap;  /* ban đầu trên 1 dòng */
+  flex-wrap: nowrap;
   gap: 12px;
   margin-bottom: 16px;
   align-items: center;
@@ -46,7 +47,8 @@ input[type="text"] {
   transition: 0.3s;
 }
 
-select, button {
+select,
+button {
   flex: 0 0 auto;
   min-width: 120px;
   padding: 10px 12px;
@@ -59,7 +61,9 @@ select, button {
   cursor: pointer;
 }
 
-input:hover, select:hover, button:hover {
+input:hover,
+select:hover,
+button:hover {
   background-color: #f1f8f1;
   color: #1a3a1c;
   border-color: #1b5e20;
@@ -83,38 +87,54 @@ button:hover {
     flex-wrap: nowrap;
   }
 
-  input[type="text"], select, button {
+  input[type="text"],
+  select,
+  button {
     width: 100%;
     min-width: auto;
     margin: 4px 0;
-    /* Thêm 2 dòng dưới đây: */
-    box-sizing: border-box; /* Đảm bảo padding + border tính vào chiều cao */
-    height: 44px;            /* Chiều cao cố định cho tất cả */
+    box-sizing: border-box;
+    height: 44px;
   }
 }
 
-
-/* Phần bảng, #ketqua giữ nguyên */
+/* Khối chứa bảng */
 #ketqua {
-  overflow-x: visible;  /* hoặc bỏ hẳn overflow-x */
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 6px;
   padding: 10px;
   background: #fff;
   max-height: 600px;
   scrollbar-width: thin;
-  white-space: nowrap; /* giữ không xuống dòng */
+  white-space: nowrap;
 }
 
 #ketqua::-webkit-scrollbar {
   height: 8px;
 }
+
 #ketqua::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
+/* Bọc bảng để cuộn ngang */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* Bảng */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -122,7 +142,8 @@ table {
   min-width: 900px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ccc;
   padding: 8px 10px;
   text-align: left;
@@ -135,6 +156,7 @@ thead {
   color: white;
 }
 
+/* Ghi chú */
 #scroll-note {
   font-size: 12px;
   color: #666;
