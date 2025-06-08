@@ -1,48 +1,54 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
   padding: 20px;
+  margin: 0;
+  color: #333;
+  line-height: 1.5;
 }
 
 #container {
   max-width: 1000px;
   margin: auto;
   background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Đề mục */
+/* Tiêu đề chính */
 h2 {
-  margin-bottom: 20px;
-  color: #2e7d32; /* xanh lá đậm */
+  margin-bottom: 24px;
+  color: #2e7d32;
+  font-size: 24px;
+  text-align: center;
 }
 
 /* Form tìm kiếm */
 form {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 input, select, button {
-  padding: 8px;
+  padding: 10px 12px;
   font-size: 14px;
-  border: 1px solid #2e7d32; /* viền xanh lá */
-  border-radius: 4px;
+  border: 1px solid #2e7d32;
+  border-radius: 6px;
   color: #2e7d32;
-  background-color: #e8f5e9; /* nền xanh lá nhạt */
-  transition: background-color 0.3s, color 0.3s;
+  background-color: #e8f5e9;
+  transition: 0.3s;
 }
 
 input[type="text"] {
   flex: 1;
+  min-width: 200px;
 }
 
 input:hover, select:hover, button:hover {
-  background-color: #f5f5f5; /* nền hover sáng hơn */
+  background-color: #f1f8f1;
   color: #121312;
   border-color: #1b5e20;
 }
@@ -58,87 +64,102 @@ button:hover {
   background-color: #1b5e20;
 }
 
-/* Container bảng với thanh cuộn ngang luôn hiển thị */
+/* Kết quả bảng */
 #ketqua {
-  overflow-x: scroll;
-  scrollbar-width: thin; /* Firefox */
+  overflow-x: auto;
+  overflow-y: auto;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 10px;
-  max-height: 600px;
-  overflow-y: auto; /* cuộn dọc nếu bảng cao */
   background: #fff;
+  max-height: 600px;
+  scrollbar-width: thin;
 }
 
-/* Tùy biến thanh cuộn ngang cho Webkit (Chrome, Edge, Safari) */
+/* Scrollbar Chrome, Safari */
 #ketqua::-webkit-scrollbar {
   height: 8px;
 }
 #ketqua::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
+/* Bảng dữ liệu */
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  min-width: 900px; /* Giữ đủ chỗ cho nhiều cột */
+  min-width: 900px;
 }
 
 th, td {
   border: 1px solid #ccc;
-  padding: 6px 8px;
+  padding: 8px 10px;
   text-align: left;
-  white-space: nowrap; /* Không xuống dòng trong ô */
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
-/* Đề mục bảng */
 thead {
   background-color: #2e7d32;
   color: white;
 }
 
-/* Thông báo kéo ngang */
 #scroll-note {
   font-size: 12px;
   color: #666;
-  margin-top: 5px;
+  margin-top: 6px;
   font-style: italic;
+  text-align: center;
 }
 
-/* Responsive cho màn hình nhỏ */
-@media (max-width: 600px) {
+/* Responsive dưới 768px */
+@media (max-width: 768px) {
   body {
     padding: 10px;
   }
 
   #container {
-    padding: 10px;
-    max-width: 100%;
+    padding: 16px;
   }
 
   form {
     flex-direction: column;
   }
 
-  input[type="text"], button, select {
+  input, select, button {
     font-size: 16px;
-    padding: 10px;
     width: 100%;
   }
 
   table {
-    font-size: 12px;
+    font-size: 13px;
     min-width: 600px;
   }
 
   th, td {
-    padding: 4px 6px;
+    padding: 6px 8px;
   }
-  th > div:last-child {
-  margin-top: 4px;
-  text-align: center;
+
+  #scroll-note {
+    font-size: 11px;
+  }
 }
 
+/* Responsive dưới 480px (mobile nhỏ) */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  input, select, button {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  table {
+    font-size: 12px;
+    min-width: 500px;
+  }
 }
