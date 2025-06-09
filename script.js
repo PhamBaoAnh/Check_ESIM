@@ -19,16 +19,12 @@
   const columns = [
     { key: "checkbox", label: "", selectable: false },
     { key: "stt", label: "STT", selectable: false },
-    // { key: "Mã sản phẩm", label: "Mã SP", selectable: true }, // Đã comment
     { key: "Gói dịch vụ", label: "Gói dịch vụ", selectable: true },
     { key: "Quốc gia", label: "Quốc gia", selectable: true },
     { key: "Số ngày", label: "Số ngày", selectable: true },
     { key: "Dung lượng", label: "Dung lượng", selectable: true },
     { key: "Loại gói cước", label: "Loại gói cước", selectable: true },
     { key: "Giá bán lẻ ESIMZY", label: "Giá bán lẻ ESIMZY", selectable: true },
-    // { key: "Báo giá ĐL Cấp I (>300 SIM/tháng)", label: "ĐL Cấp I", selectable: true },
-    // { key: "Báo giá ĐL Cấp II (100-300 SIM/tháng)", label: "ĐL Cấp II", selectable: true },
-    // { key: "Báo giá CTV (<100 SIM/tháng)", label: "Giá CTV", selectable: true },
     { key: "Ghi chú", label: "Ghi chú", selectable: true }
   ];
 
@@ -86,102 +82,113 @@
   }
 
   function taoTableHTML(ds) {
-  if (ds.length === 0) return "<p>🔎 Không tìm thấy kết quả phù hợp.</p>";
+    if (ds.length === 0) return "<p>🔎 Không tìm thấy kết quả phù hợp.</p>";
 
-  let tableHTML = `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse: collapse; width: 100%;">`;
-  tableHTML += `<thead><tr><th><input type="checkbox" id="selectAll" /></th><th>STT</th>`;
+    let tableHTML = `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse: collapse; width: 100%;">`;
+    tableHTML += `<thead><tr><th><input type="checkbox" id="selectAll" /></th><th>STT</th>`;
 
-  // Mảng chứa tên các cột KHÔNG tích checkbox lúc đầu
-  const uncheckedCols = ["Loại gói cước", "Ghi chú"];
+    // Mảng chứa tên các cột KHÔNG tích checkbox lúc đầu
+    const uncheckedCols = ["Loại gói cước", "Ghi chú"];
 
-  for (let i = 2; i < columns.length; i++) {
-    const colLabel = columns[i].label;
-    const isChecked = uncheckedCols.includes(colLabel) ? "" : "checked";
-    tableHTML += `<th>
-      ${colLabel}
-      <input type="checkbox" class="colToggle" data-col-index="${i}" style="margin-left:5px;" ${isChecked} />
-    </th>`;
-  }
-
-  tableHTML += `</tr></thead><tbody>`;
-
-  ds.forEach((sp, index) => {
-    tableHTML += `<tr><td><input type="checkbox" class="rowCheckbox" data-index="${index}"></td><td>${index + 1}</td>`;
     for (let i = 2; i < columns.length; i++) {
-      const key = columns[i].key;
-      tableHTML += `<td>${sp[key] || ""}</td>`;
+      const colLabel = columns[i].label;
+      const isChecked = uncheckedCols.includes(colLabel) ? "" : "checked";
+      tableHTML += `<th>
+        ${colLabel}
+        <input type="checkbox" class="colToggle" data-col-index="${i}" style="margin-left:5px;" ${isChecked} />
+      </th>`;
     }
-    tableHTML += `</tr>`;
-  });
 
-  tableHTML += `</tbody></table>`;
-  return tableHTML;
-}
+    tableHTML += `</tr></thead><tbody>`;
 
+    ds.forEach((sp, index) => {
+      tableHTML += `<tr><td><input type="checkbox" class="rowCheckbox" data-index="${index}"></td><td>${index + 1}</td>`;
+      for (let i = 2; i < columns.length; i++) {
+        const key = columns[i].key;
+        tableHTML += `<td>${sp[key] || ""}</td>`;
+      }
+      tableHTML += `</tr>`;
+    });
+
+    tableHTML += `</tbody></table>`;
+    return tableHTML;
+  }
 
   function hienThiBang(ds) {
-  if (ds.length === 0) {
-    ketquaDiv.innerHTML = "<p>🔎 Không tìm thấy kết quả phù hợp.</p>";
-    copyBtnContainer.innerHTML = "";
-    return;
-  }
-
-  copyBtnContainer.innerHTML = `<button id="copySelectedBtn" style="margin-bottom:10px;">Copy dòng và cột đã chọn</button>`;
-  const tableHTML = taoTableHTML(ds);
-
-  // Thêm nút selectAll cho list view
-  let listViewHTML = `
-    <div style="margin-top:15px; margin-bottom:5px;">
-      <label><input type="checkbox" id="selectAllCards" /> Chọn tất cả (danh sách)</label>
-    </div>
-    <div class="list-view">`;
-
-  ds.forEach((sp, index) => {
-    listViewHTML += `<div class="card" data-index="${index}">
-      <div><input type="checkbox" class="rowCheckbox" data-index="${index}" /> <strong>STT: ${index + 1}</strong></div>`;
-    for (let i = 2; i < columns.length; i++) {
-      const key = columns[i].key;
-      const label = columns[i].label;
-      const value = sp[key] || "";
-      listViewHTML += `<div><strong>${label}:</strong> ${value}</div>`;
+    if (ds.length === 0) {
+      ketquaDiv.innerHTML = "<p>🔎 Không tìm thấy kết quả phù hợp.</p>";
+      copyBtnContainer.innerHTML = "";
+      return;
     }
+
+    copyBtnContainer.innerHTML = `<button id="copySelectedBtn" style="margin-bottom:10px;">Copy dòng và cột đã chọn</button>`;
+    const tableHTML = taoTableHTML(ds);
+
+    // Thêm nút selectAll cho list view
+    let listViewHTML = `
+      <div style="margin-top:15px; margin-bottom:5px;">
+        <label><input type="checkbox" id="selectAllCards" /> Chọn tất cả (danh sách)</label>
+      </div>
+      <div class="list-view">`;
+
+    ds.forEach((sp, index) => {
+      listViewHTML += `<div class="card" data-index="${index}">
+        <div><input type="checkbox" class="rowCheckbox" data-index="${index}" /> <strong>STT: ${index + 1}</strong></div>`;
+      for (let i = 2; i < columns.length; i++) {
+        const key = columns[i].key;
+        const label = columns[i].label;
+        const value = sp[key] || "";
+        listViewHTML += `<div><strong>${label}:</strong> ${value}</div>`;
+      }
+      listViewHTML += `</div>`;
+    });
     listViewHTML += `</div>`;
-  });
-  listViewHTML += `</div>`;
 
-  ketquaDiv.innerHTML = tableHTML + listViewHTML;
+    ketquaDiv.innerHTML = tableHTML + listViewHTML;
 
-  // Sự kiện checkbox selectAll trong bảng
-  document.getElementById("selectAll").addEventListener("change", function () {
-    const checked = this.checked;
-    document.querySelectorAll(".rowCheckbox").forEach(cb => cb.checked = checked);
-  });
-
-  // Sự kiện checkbox selectAll trong danh sách card
-  const selectAllCardsCb = document.getElementById("selectAllCards");
-  if (selectAllCardsCb) {
-    selectAllCardsCb.addEventListener("change", function () {
+    // Sự kiện checkbox selectAll trong bảng
+    document.getElementById("selectAll").addEventListener("change", function () {
       const checked = this.checked;
-      // Chỉ chọn các checkbox trong danh sách card (tránh ảnh hưởng checkbox bảng)
-      document.querySelectorAll(".list-view .rowCheckbox").forEach(cb => cb.checked = checked);
+      // Chỉ chọn checkbox trong bảng (tránh checkbox danh sách)
+      document.querySelectorAll("table .rowCheckbox").forEach(cb => cb.checked = checked);
+    });
+
+    // Sự kiện checkbox selectAll trong danh sách card
+    const selectAllCardsCb = document.getElementById("selectAllCards");
+    if (selectAllCardsCb) {
+      selectAllCardsCb.addEventListener("change", function () {
+        const checked = this.checked;
+        // Chỉ chọn checkbox trong danh sách card (tránh ảnh hưởng checkbox bảng)
+        document.querySelectorAll(".list-view .rowCheckbox").forEach(cb => cb.checked = checked);
+      });
+    }
+
+    document.getElementById("copySelectedBtn").addEventListener("click", () => {
+      copySelectedCells(ds);
     });
   }
 
-  document.getElementById("copySelectedBtn").addEventListener("click", () => {
-    copySelectedCells(ds);
-  });
-}
-
   function copySelectedCells(ds) {
-    const checkedRows = Array.from(document.querySelectorAll(".rowCheckbox:checked"))
+    // Lấy checkbox dòng đã check trong bảng
+    const checkedRowsTable = Array.from(document.querySelectorAll("table .rowCheckbox:checked"))
       .map(cb => parseInt(cb.getAttribute("data-index")));
+
+    // Lấy checkbox dòng đã check trong danh sách card
+    const checkedRowsCards = Array.from(document.querySelectorAll(".list-view .rowCheckbox:checked"))
+      .map(cb => parseInt(cb.getAttribute("data-index")));
+
+    // Gộp 2 mảng và loại trùng
+    const checkedRows = Array.from(new Set([...checkedRowsTable, ...checkedRowsCards]));
+
     if (checkedRows.length === 0) {
       alert("Vui lòng chọn ít nhất một dòng để sao chép.");
       return;
     }
 
+    // Lấy các cột được chọn
     const checkedCols = Array.from(document.querySelectorAll(".colToggle:checked"))
       .map(cb => parseInt(cb.getAttribute("data-col-index")));
+
     if (checkedCols.length === 0) {
       alert("Vui lòng chọn ít nhất một cột để sao chép.");
       return;
