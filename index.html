@@ -11,28 +11,30 @@
     <h2>🔍 Tìm kiếm eSIM</h2>
 
     <form onsubmit="event.preventDefault(); timKiemSanPham();">
-      <input type="text" id="keyword" placeholder="Nhập từ khóa (ví dụ: USA, 10GB, 3 ngày)" />
+      <div class="form-row">
+        <input type="text" id="keyword" placeholder="Nhập từ khóa (ví dụ: USA, 10GB, 3 ngày)" />
+        <button type="submit">Tìm kiếm</button>
+      </div>
 
-      <select id="filterQuocGia">
-        <option value="">-- Chọn Quốc gia --</option>
-      </select>
+      <div class="form-row">
+        <select id="filterQuocGia">
+          <option value="">-- Chọn Quốc gia --</option>
+        </select>
 
-      <select id="filterSoNgay">
-        <option value="">-- Chọn Số ngày --</option>
-      </select>
+        <select id="filterSoNgay">
+          <option value="">-- Chọn Số ngày --</option>
+        </select>
 
-      <select id="filterDungLuong">
-        <option value="">-- Chọn Dung lượng (GB) --</option>
-      </select>
+        <select id="filterDungLuong">
+          <option value="">-- Chọn Dung lượng (GB) --</option>
+        </select>
 
-      <button type="submit">Tìm kiếm</button>
+        <div id="copy-btn-container"></div>
+      </div>
+
       <div id="search-hint"></div>
     </form>
 
-    <!-- Nút copy sẽ được JS chèn ở đây -->
-    <div id="copy-btn-container" style="margin: 10px 0;"></div>
-
-    <!-- Phần tử chứa bảng có scroll ngang và dọc -->
     <div id="ketqua" class="table-wrapper">
       <!-- Bảng do JS tạo sẽ chèn vào đây -->
     </div>

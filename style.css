@@ -29,15 +29,16 @@ h2 {
   letter-spacing: 0.02em;
 }
 
-/* Form tìm kiếm */
-form {
+/* Các hàng form */
+.form-row {
   display: flex;
-  flex-wrap: nowrap;
   gap: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
+/* Form tìm kiếm */
 input[type="text"],
 select,
 button {
@@ -55,13 +56,19 @@ button {
 
 input[type="text"] {
   flex-grow: 1;
-  min-width: 220px;
+  min-width: 240px;
 }
 
 select,
-button {
+button,
+#copy-btn-container {
   flex-shrink: 0;
   min-width: 130px;
+}
+
+/* Nút copy container cũng có style để nằm cùng hàng */
+#copy-btn-container {
+  min-width: 140px;
 }
 
 input:hover,
@@ -94,16 +101,20 @@ button:focus {
 
 /* Responsive */
 @media (max-width: 768px) {
-  form {
+  .form-row {
     flex-direction: column;
+  }
+
+  .form-row > * {
+    width: 100%;
+    min-width: auto;
   }
 
   input[type="text"],
   select,
-  button {
-    width: 100%;
-    margin: 6px 0;
-    height: 48px;
+  button,
+  #copy-btn-container {
+    min-width: auto;
   }
 }
 
@@ -245,7 +256,7 @@ thead th:first-child {
   padding: 16px 20px;
   box-shadow: 1px 2px 8px rgba(0,0,0,0.08);
   clear: both;
-  white-space: normal;       /* cho phép xuống dòng */
+  white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
   background: #fff;
@@ -261,5 +272,4 @@ thead th:first-child {
 
 .list-view .card div {
   margin: 6px 0;
-  /* Bạn có thể thêm border-bottom hoặc màu khác nếu muốn */
 }
